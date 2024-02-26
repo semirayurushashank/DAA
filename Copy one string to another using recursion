@@ -1,0 +1,30 @@
+#include <stdio.h>
+
+// Function to copy one string to another recursively
+void stringCopy(char *source, char *destination) {
+    if (*source == '\0') {
+        *destination = '\0'; // Terminate the destination string
+        return;
+    }
+    
+    *destination = *source; // Copy current character from source to destination
+    stringCopy(source + 1, destination + 1); // Move to next characters in both source and destination
+}
+
+int main() {
+    char source[100], destination[100];
+
+    printf("Enter a string: ");
+    fgets(source, sizeof(source), stdin);
+    
+    // Remove newline character from fgets
+    source[strcspn(source, "\n")] = '\0';
+
+    // Copy the string
+    stringCopy(source, destination);
+
+    printf("Source string: %s\n", source);
+    printf("Copied string: %s\n", destination);
+
+    return 0;
+}
