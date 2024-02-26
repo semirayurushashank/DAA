@@ -1,0 +1,37 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
+#include <ctype.h>
+
+// Function to check if a string is a palindrome recursively
+bool isPalindrome(char str[], int start, int end) {
+    // Base case: if start is greater than or equal to end, it means the entire string has been checked
+    if (start >= end)
+        return true;
+
+    // If the characters at start and end positions are not equal, return false
+    if (tolower(str[start]) != tolower(str[end]))
+        return false;
+
+    // Recursively check the substring from start+1 to end-1
+    return isPalindrome(str, start + 1, end - 1);
+}
+
+int main() {
+    char str[100];
+    
+    printf("Enter a string: ");
+    fgets(str, sizeof(str), stdin);
+    
+    // Remove newline character from fgets
+    str[strcspn(str, "\n")] = '\0';
+
+    int len = strlen(str);
+
+    if (isPalindrome(str, 0, len - 1))
+        printf("%s is a palindrome.\n", str);
+    else
+        printf("%s is not a palindrome.\n", str);
+
+    return 0;
+}
