@@ -1,0 +1,57 @@
+#include <stdio.h>
+
+#define N 3 // Define the size of matrices
+
+// Function to print a matrix
+void printMatrix(int mat[N][N]) {
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            printf("%d ", mat[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+// Function to multiply two matrices recursively
+void multiplyMatrices(int mat1[N][N], int mat2[N][N], int result[N][N], int row1, int col1, int col2) {
+    if (row1 == N) // Base case: If we've multiplied all rows
+        return;
+
+    if (col2 == N) { // If we've finished multiplying current row with all columns
+        multiplyMatrices(mat1, mat2, result, row1 + 1, 0, 0); // Move to next row
+        return;
+    }
+
+    if (col1 == N) { // If we've finished multiplying all columns of the first matrix
+        col1 = 0; // Reset col1
+        multiplyMatrices(mat1, mat2, result, row1, 0, col2 + 1); // Move to next column of second matrix
+        return;
+    }
+
+    result[row1][col2] = 0; // Initialize result element
+
+    for (int k = 0; k < N; k++) {
+        result[row1][col2] += mat1[row1][k] * mat2[k][col2]; // Multiply corresponding elements and add to result
+    }
+
+    // Recursively move to the next element
+    multiplyMatrices(mat1, mat2, result, row1, col1 + 1, col2);
+}
+
+int main() {
+    int mat1[N][N] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+    int mat2[N][N] = {{9, 8, 7}, {6, 5, 4}, {3, 2, 1}};
+    int result[N][N] = {0}; // Initialize result matrix with zeros
+
+    printf("Matrix 1:\n");
+    printMatrix(mat1);
+    printf("\nMatrix 2:\n");
+    printMatrix(mat2);
+
+    multiplyMatrices(mat1, mat2, result, 0, 0, 0);
+
+    printf("\nResult of matrix multiplication:\n");
+    printMatrix(result);
+
+    return 0;
+}
